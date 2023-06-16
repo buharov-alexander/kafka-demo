@@ -1,6 +1,7 @@
 package ru.buharov.kafka.service.kafkaclient.internal
 
 import org.apache.kafka.clients.admin.NewTopic
+import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.core.KafkaAdmin
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
@@ -18,5 +19,10 @@ class KafkaServiceImpl(
 	override fun createTopic(topic: String) {
 		val newTopic = NewTopic(topic, 1, 1)
 		kafkaAdmin.createOrModifyTopics(newTopic)
+	}
+
+	@KafkaListener(topicPattern = ".*", groupId = "all")
+	fun listenAll(content: String?) {
+		println(content)
 	}
 }
