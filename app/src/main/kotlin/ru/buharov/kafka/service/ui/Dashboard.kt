@@ -4,13 +4,17 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.textfield.TextArea
 import com.vaadin.flow.router.Route
 import ru.buharov.kafka.service.kafkaclient.KafkaService
+import ru.buharov.kafka.service.ui.component.DemoTabs
+
 
 @Route("")
 class Dashboard(kafkaService: KafkaService) : VerticalLayout() {
 	private val messageDisplay = MessageDisplay()
+	private val demoTabs = DemoTabs()
 
 	init {
 		add(messageDisplay)
+		add(demoTabs)
 
 		kafkaService.registerMessageHandler("test") { message: String -> messageHandler(message) }
 	}

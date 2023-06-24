@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 import ru.buharov.kafka.service.kafkaclient.KafkaService
 
 @Service
-class KafkaServiceImpl(
+private class KafkaServiceImpl(
 		private val kafkaTemplate: KafkaTemplate<String, String>,
 		private val kafkaAdmin: KafkaAdmin) : KafkaService {
 
