@@ -10,7 +10,7 @@ import ru.buharov.kafka.service.ui.component.DemoTabs
 @Route("")
 class Dashboard(kafkaService: KafkaService) : VerticalLayout() {
 	private val messageDisplay = MessageDisplay()
-	private val demoTabs = DemoTabs()
+	private val demoTabs = DemoTabs(kafkaService)
 
 	init {
 		add(messageDisplay)
