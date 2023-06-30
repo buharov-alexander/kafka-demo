@@ -42,8 +42,10 @@ private class KafkaServiceImpl(
 	fun listenAll(
 		content: String,
 		@Header(KafkaHeaders.RECEIVED_TOPIC) topic: String,
+		@Header(KafkaHeaders.OFFSET) offset: String,
+		@Header(KafkaHeaders.RECEIVED_PARTITION) partition: Int,
 	) {
 		val handler = handlerMap.getOrDefault(topic) { str -> str }
-		handler(content)
+		handler("Partition: $partition, Offset: $offset, Message: $content")
 	}
 }
