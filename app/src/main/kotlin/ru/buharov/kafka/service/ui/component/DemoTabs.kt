@@ -1,22 +1,16 @@
 package ru.buharov.kafka.service.ui.component
 
-import com.vaadin.flow.component.Text
 import com.vaadin.flow.component.html.Div
 import com.vaadin.flow.component.tabs.TabSheet
-import ru.buharov.kafka.service.kafkaclient.KafkaService
-import ru.buharov.kafka.service.ui.demo.ProviderAndConsumerDemo
+import ru.buharov.kafka.service.demo.ProviderAndConsumerDemo
 
-class DemoTabs(kafkaService: KafkaService) : Div() {
+class DemoTabs(demo1: ProviderAndConsumerDemo) : Div() {
 	init {
 		setSizeFull()
 		val tabSheet = TabSheet()
-		val providerAndConsumerDemo = ProviderAndConsumerDemo(kafkaService)
-		tabSheet.add(providerAndConsumerDemo.getLabel(), providerAndConsumerDemo)
+		val demo1UI = demo1.createUI()
+		tabSheet.add(demo1UI.getLabel(), demo1UI)
 		add(tabSheet)
 	}
 
-}
-
-enum class Demo {
-	DEMO1
 }

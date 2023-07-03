@@ -13,39 +13,9 @@ import ru.buharov.kafka.service.kafkaclient.KafkaService
 @Service
 private class KafkaServiceImpl(
 	private val kafkaTemplate: KafkaTemplate<String, String>,
-	private val kafkaAdmin: KafkaAdmin
 ) : KafkaService {
-
-	@Value("\${kafka.topic.demo1.name}")
-	private val kafkaTopicDemo1Name: String = ""
-
-	private val handlerMap = mutableMapOf<String, (String) -> Unit>()
 
 	override fun sendMessage(topic: String, message: String) {
 		kafkaTemplate.send(topic, message)
-	}
-
-	override fun createTopic(topic: String) {
-		val newTopic = NewTopic(topic, 1, 1)
-		kafkaAdmin.createOrModifyTopics(newTopic)
-	}
-
-	override fun registerMessageHandler(topic: String, handler: (String) -> Unit) {
-		handlerMap[topic] = handler
-	}
-
-	override fun getKafkaTopicDemo1Name(): String {
-		return kafkaTopicDemo1Name
-	}
-
-	@KafkaListener(topicPattern = ".*", groupId = "all")
-	fun listenAll(
-		content: String,
-		@Header(KafkaHeaders.RECEIVED_TOPIC) topic: String,
-		@Header(KafkaHeaders.OFFSET) offset: String,
-		@Header(KafkaHeaders.RECEIVED_PARTITION) partition: Int,
-	) {
-		val handler = handlerMap.getOrDefault(topic) { str -> str }
-		handler("Partition: $partition, Offset: $offset, Message: $content")
 	}
 }
